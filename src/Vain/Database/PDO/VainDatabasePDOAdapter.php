@@ -22,7 +22,7 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
     
     private $generatorFactory;
     
-    private $level = 0;
+    private $level;
 
     private $dsn;
     
@@ -47,6 +47,7 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
         $this->username = $username;
         $this->password = $password;
         $this->options = $options;
+        $this->level = 0;
     }
 
     /**
