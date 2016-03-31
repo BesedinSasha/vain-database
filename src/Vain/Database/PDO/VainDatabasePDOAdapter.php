@@ -8,7 +8,8 @@
 
 namespace Vain\Database\PDO;
 
-use Vain\Database\PDO\Exception\VainDatabasePDOAdapterException;
+use Vain\Database\PDO\Exception\VainDatabaseAdapterCommunicationException;
+use Vain\Database\PDO\Exception\VainDatabasePDOAdapterQueryException;
 use Vain\Database\PDO\Iterator\VainDatabasePDOCursor;
 use Vain\Database\VainDatabaseInterface;
 use Vain\Database\Exception\VainDatabaseLevelIntegrityException;
@@ -23,17 +24,104 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
     
     private $level = 0;
 
+    private $dsn;
+    
+    private $username;
+    
+    private $password;
+    
+    private $options;
+    
     /**
      * VainDatabasePDOAdapter constructor.
-     * @param \PDO $pdoInstance
      * @param VainDatabaseGeneratorFactoryInterface $generatorFactory
+     * @param string $dsn
+     * @param string $username
+     * @param string $password
+     * @param array $options
      */
-    public function __construct(\PDO $pdoInstance, VainDatabaseGeneratorFactoryInterface $generatorFactory)
+    public function __construct(VainDatabaseGeneratorFactoryInterface $generatorFactory, $dsn, $username, $password, array $options = [\PDO::ATTR_EMULATE_PREPARES => true])
     {
-        $this->pdoInstance = $pdoInstance;
         $this->generatorFactory = $generatorFactory;
+        $this->dsn = $dsn;
+        $this->username = $username;
+        $this->password = $password;
+        $this->options = $options;
     }
 
+    /**
+     * @return \PDO
+     */
+    protected function getPdoInstance()
+    {
+        return $this->pdoInstance;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDsn()
+    {
+        return $this->dsn;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @return VainDatabaseGeneratorFactoryInterface
+     */
+    protected function getGeneratorFactory()
+    {
+        return $this->generatorFactory;
+    }
+    
+    /**
+     * @return \PDO
+     */
+    protected function connect()
+    {
+        if ($this->pdoInstance) {
+            return $this->pdoInstance;
+        }
+        try {
+            $pdoInstance = new \PDO($this->dsn, $this->username, $this->password, $this->options);
+            $this->pdoInstance = $pdoInstance;
+            return $pdoInstance;
+        } catch (\PDOException $e) {
+            throw new VainDatabaseAdapterCommunicationException($this, $e);
+        }
+    }
+    
     /**
      * @inheritDoc
      */
@@ -49,9 +137,9 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
         }
 
         try {
-            return $this->pdoInstance->beginTransaction();
+            return $this->connect()->beginTransaction();
         } catch (\PDOException $e) {
-            throw new VainDatabasePDOAdapterException($this, $this->pdoInstance->errorCode(), $this->pdoInstance->errorInfo(), $e);;
+            throw new VainDatabaseAdapterCommunicationException($this, $e);
         }
     }
 
@@ -70,9 +158,9 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
         }
         
         try {
-            return $this->pdoInstance->commit();
+            return $this->connect()->commit();
         } catch (\PDOException $e) {
-            throw new VainDatabasePDOAdapterException($this, $this->pdoInstance->errorCode(), $this->pdoInstance->errorInfo(), $e);
+            throw new VainDatabaseAdapterCommunicationException($this, $e);
         }
     }
 
@@ -91,9 +179,9 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
         }
 
         try {
-            return $this->pdoInstance->rollBack();
+            return $this->connect()->rollBack();
         } catch (\PDOException $e) {
-            throw new VainDatabasePDOAdapterException($this, $this->pdoInstance->errorCode(), $this->pdoInstance->errorInfo(), $e);
+            throw new VainDatabaseAdapterCommunicationException($this, $e);
         }
     }
 
@@ -102,10 +190,10 @@ class VainDatabasePDOAdapter implements VainDatabaseInterface
      */
     public function query($query, array $bindParams)
     {   
-        $statement = $this->pdoInstance->prepare($query);
+        $statement = $this->getPdoInstance()->prepare($query);
 
         if (false == $statement->execute($bindParams)) {
-            throw new VainDatabasePDOAdapterException($this, $statement->errorCode(), $statement->errorInfo());
+            throw new VainDatabasePDOAdapterQueryException($this, $statement->errorCode(), $statement->errorInfo());
         }
 
         return $this->generatorFactory->createGenerator($this, new VainDatabasePDOCursor($statement));

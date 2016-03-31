@@ -16,12 +16,10 @@ class VainDatabasePDOAdapterException extends VainDatabaseException
     /**
      * VainDatabasePDOAdapterException constructor.
      * @param VainDatabaseInterface $vainDatabase
-     * @param string $pdoCode
-     * @param array $pdoInfo
      * @param \PDOException $e
      */
-    public function __construct(VainDatabaseInterface $vainDatabase, $pdoCode, $pdoInfo, \PDOException $e = null)
+    public function __construct(VainDatabaseInterface $vainDatabase, $errorCode, $errorMessage, \PDOException $e = null)
     {
-        parent::__construct($vainDatabase, sprintf('Unable to communicate to the database: %d - %s', $pdoCode, implode(', ', $pdoInfo)), 0, $e);
+        parent::__construct($vainDatabase, sprintf('Unable to communicate to the database: %d - %s', $errorCode, $errorMessage), 0, $e);
     }
 }
