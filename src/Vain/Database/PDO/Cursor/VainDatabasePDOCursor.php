@@ -17,8 +17,6 @@ class VainDatabasePDOCursor implements VainDatabaseCursorInterface
 
     private $mode;
     
-    private $state;
-    
     /**
      * VainDatabasePDOGenerator constructor.
      * @param \PDOStatement $pdoStatementInstance
@@ -28,7 +26,6 @@ class VainDatabasePDOCursor implements VainDatabaseCursorInterface
     {
         $this->pdoStatementInstance = $pdoStatementInstance;
         $this->mode = $mode;
-        $this->state = true;
     }
 
     /**
