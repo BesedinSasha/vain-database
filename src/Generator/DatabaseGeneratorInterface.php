@@ -9,9 +9,19 @@
 namespace Vain\Database\Generator;
 
 
-interface VainDatabaseGeneratorInterface extends \Iterator, \Countable
+interface DatabaseGeneratorInterface extends \Iterator, \Countable
 {
+    /**
+     * @param int $mode
+     *
+     * @return array
+     */
     public function getSingleRow($mode);
 
+    /**
+     * @param int $mode
+     *
+     * @return array
+     */
     public function getAllRows($mode);
 }

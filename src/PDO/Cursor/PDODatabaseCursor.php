@@ -8,11 +8,10 @@
 
 namespace Vain\Database\PDO\Iterator;
 
-use Vain\Database\Cursor\VainDatabaseCursorInterface;
+use Vain\Database\Cursor\DatabaseCursorInterface;
 
-class VainDatabasePDOCursor implements VainDatabaseCursorInterface
+class PDODatabaseCursor implements DatabaseCursorInterface
 {
-    
     private $pdoStatementInstance;
 
     private $mode;

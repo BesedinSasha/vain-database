@@ -8,28 +8,28 @@
 
 namespace Vain\Database\Exception;
 
-use Vain\Core\Exception\VainCoreException;
-use Vain\Database\VainDatabaseInterface;
+use Vain\Core\Exception\CoreException;
+use Vain\Database\DatabaseInterface;
 
-class VainDatabaseException extends VainCoreException
+class DatabaseException extends CoreException
 {
     private $database;
 
     /**
      * VainDatabaseException constructor.
-     * @param VainDatabaseInterface $vainDatabase
+     * @param DatabaseInterface $vainDatabase
      * @param string $message
      * @param int $code
      * @param \Exception|null $previous
      */
-    public function __construct(VainDatabaseInterface $vainDatabase, $message, $code, \Exception $previous = null)
+    public function __construct(DatabaseInterface $vainDatabase, $message, $code, \Exception $previous = null)
     {
         $this->database = $vainDatabase;
         parent::__construct($message, $code, $previous);
     }
 
     /**
-     * @return VainDatabaseInterface
+     * @return DatabaseInterface
      */
     public function getDatabase()
     {
