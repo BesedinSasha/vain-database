@@ -12,7 +12,7 @@ use Vain\Database\Cursor\CursorInterface;
 use Vain\Database\Generator\GeneratorInterface;
 use Vain\Database\DatabaseInterface;
 
-interface FactoryInterface
+interface GeneratorFactoryInterface
 {
     /**
      * @param DatabaseInterface $database

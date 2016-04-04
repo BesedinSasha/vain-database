@@ -9,7 +9,7 @@
 namespace Vain\Database\Generator;
 
 use Vain\Database\Cursor\CursorInterface;
-use Vain\Database\Generator\Exception\RewindException;
+use Vain\Database\Generator\Exception\RewindGeneratorException;
 use Vain\Database\DatabaseInterface;
 
 class Generator implements GeneratorInterface
@@ -39,7 +39,7 @@ class Generator implements GeneratorInterface
      */
     public function rewind()
     {
-        throw new RewindException($this, $this->database);
+        throw new RewindGeneratorException($this, $this->database);
     }
 
     /**

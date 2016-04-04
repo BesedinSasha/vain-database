@@ -11,7 +11,7 @@ namespace Vain\Database\Exception;
 use Vain\Core\Exception\CoreException;
 use Vain\Database\DatabaseInterface;
 
-class Exception extends CoreException
+class DatabaseException extends CoreException
 {
     private $database;
 

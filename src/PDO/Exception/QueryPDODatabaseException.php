@@ -10,7 +10,7 @@ namespace Vain\Database\PDO\Exception;
 
 use Vain\Database\PDO\PDOAdapter;
 
-class QueryPDOException extends PDOException
+class QueryPDODatabaseException extends PDODatabaseException
 {
     /**
      * VainDatabasePDOAdapterQueryException constructor.

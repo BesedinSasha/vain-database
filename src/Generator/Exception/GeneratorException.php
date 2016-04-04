@@ -11,7 +11,7 @@ namespace Vain\Database\Generator\Exception;
 use Vain\Core\Exception\CoreException;
 use Vain\Database\Generator\GeneratorInterface;
 
-class Exception extends CoreException
+class GeneratorException extends CoreException
 {
     private $generator;
 

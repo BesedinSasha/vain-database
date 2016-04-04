@@ -10,7 +10,7 @@ namespace Vain\Database\Generator\Exception;
 
 use Vain\Database\Generator\GeneratorInterface;
 
-class RewindException extends Exception
+class RewindGeneratorException extends GeneratorException
 {
     private $generator;
 

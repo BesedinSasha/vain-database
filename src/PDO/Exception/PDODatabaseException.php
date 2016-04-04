@@ -8,10 +8,10 @@
 
 namespace Vain\Database\PDO\Exception;
 
-use Vain\Database\Exception\Exception;
+use Vain\Database\Exception\DatabaseException;
 use Vain\Database\PDO\PDOAdapter;
 
-class PDOException extends Exception
+class PDODatabaseException extends DatabaseException
 {
     /**
      * PDODatabaseException constructor.

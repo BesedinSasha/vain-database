@@ -10,7 +10,7 @@ namespace Vain\Database\PDO\Exception;
 
 use Vain\Database\PDO\PDOAdapter;
 
-class CommunicationPDOException extends PDOException
+class CommunicationPDODatabaseException extends PDODatabaseException
 {
     /**
      * CommunicationPDODatabaseException constructor.

@@ -8,11 +8,11 @@
 
 namespace Vain\Database\PDO;
 
-use Vain\Database\Exception\LevelIntegrityException;
-use Vain\Database\PDO\Exception\CommunicationPDOException;
-use Vain\Database\PDO\Exception\QueryPDOException;
+use Vain\Database\Exception\LevelIntegrityDatabaseException;
+use Vain\Database\PDO\Exception\CommunicationPDODatabaseException;
+use Vain\Database\PDO\Exception\QueryPDODatabaseException;
 use Vain\Database\DatabaseInterface;
-use Vain\Database\Generator\Factory\FactoryInterface;
+use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
 use Vain\Database\PDO\Iterator\PDOCursor;
 
 class PDOAdapter implements DatabaseInterface
@@ -34,13 +34,13 @@ class PDOAdapter implements DatabaseInterface
     
     /**
      * VainDatabasePDOAdapter constructor.
-     * @param FactoryInterface $generatorFactory
+     * @param GeneratorFactoryInterface $generatorFactory
      * @param string $dsn
      * @param string $username
      * @param string $password
      * @param array $options
      */
-    public function __construct(FactoryInterface $generatorFactory, $dsn, $username, $password, array $options = [\PDO::ATTR_EMULATE_PREPARES => true])
+    public function __construct(GeneratorFactoryInterface $generatorFactory, $dsn, $username, $password, array $options = [\PDO::ATTR_EMULATE_PREPARES => true])
     {
         $this->generatorFactory = $generatorFactory;
         $this->dsn = $dsn;
@@ -99,7 +99,7 @@ class PDOAdapter implements DatabaseInterface
     }
 
     /**
-     * @return FactoryInterface
+     * @return GeneratorFactoryInterface
      */
     protected function getGeneratorFactory()
     {
@@ -109,7 +109,7 @@ class PDOAdapter implements DatabaseInterface
     /**
      * @return \PDO
      *
-     * @throws CommunicationPDOException
+     * @throws CommunicationPDODatabaseException
      */
     protected function connect()
     {
@@ -121,7 +121,7 @@ class PDOAdapter implements DatabaseInterface
             $this->pdoInstance = $pdoInstance;
             return $pdoInstance;
         } catch (\PDOException $e) {
-            throw new CommunicationPDOException($this, $e);
+            throw new CommunicationPDODatabaseException($this, $e);
         }
     }
     
@@ -136,13 +136,13 @@ class PDOAdapter implements DatabaseInterface
         }
         
         if (0 > $this->level) {
-            throw new LevelIntegrityException($this, $this->level);
+            throw new LevelIntegrityDatabaseException($this, $this->level);
         }
 
         try {
             return $this->connect()->beginTransaction();
         } catch (\PDOException $e) {
-            throw new CommunicationPDOException($this, $e);
+            throw new CommunicationPDODatabaseException($this, $e);
         }
     }
 
@@ -157,13 +157,13 @@ class PDOAdapter implements DatabaseInterface
         }
         
         if (0 < $this->level) {
-            throw new LevelIntegrityException($this, $this->level);
+            throw new LevelIntegrityDatabaseException($this, $this->level);
         }
         
         try {
             return $this->connect()->commit();
         } catch (\PDOException $e) {
-            throw new CommunicationPDOException($this, $e);
+            throw new CommunicationPDODatabaseException($this, $e);
         }
     }
 
@@ -178,13 +178,13 @@ class PDOAdapter implements DatabaseInterface
         }
 
         if (0 < $this->level) {
-            throw new LevelIntegrityException($this, $this->level);
+            throw new LevelIntegrityDatabaseException($this, $this->level);
         }
 
         try {
             return $this->connect()->rollBack();
         } catch (\PDOException $e) {
-            throw new CommunicationPDOException($this, $e);
+            throw new CommunicationPDODatabaseException($this, $e);
         }
     }
 
@@ -196,7 +196,7 @@ class PDOAdapter implements DatabaseInterface
         $statement = $this->getPdoInstance()->prepare($query);
 
         if (false == $statement->execute($bindParams)) {
-            throw new QueryPDOException($this, $statement->errorCode(), $statement->errorInfo());
+            throw new QueryPDODatabaseException($this, $statement->errorCode(), $statement->errorInfo());
         }
 
         return $this->generatorFactory->create($this, new PDOCursor($statement));

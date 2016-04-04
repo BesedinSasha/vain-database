@@ -10,11 +10,11 @@ namespace Vain\Database\PDO\Generator\Factory;
 
 
 use Vain\Database\Cursor\CursorInterface;
-use Vain\Database\Generator\Factory\FactoryInterface;
+use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
 use Vain\Database\Generator\Generator;
 use Vain\Database\DatabaseInterface;
 
-class PDOFactory implements FactoryInterface
+class PDOGeneratorGeneratorFactory implements GeneratorFactoryInterface
 {
     /**
      * @inheritDoc
