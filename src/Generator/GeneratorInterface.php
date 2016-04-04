@@ -9,7 +9,7 @@
 namespace Vain\Database\Generator;
 
 
-interface DatabaseGeneratorInterface extends \Iterator, \Countable
+interface GeneratorInterface extends \Iterator, \Countable
 {
     /**
      * @param int $mode

@@ -8,11 +8,11 @@
 
 namespace Vain\Database\Generator;
 
-use Vain\Database\Cursor\DatabaseCursorInterface;
-use Vain\Database\Generator\Exception\RewindDatabaseGeneratorException;
+use Vain\Database\Cursor\CursorInterface;
+use Vain\Database\Generator\Exception\RewindException;
 use Vain\Database\DatabaseInterface;
 
-class DatabaseGenerator implements DatabaseGeneratorInterface
+class Generator implements GeneratorInterface
 {
     private $database;
     
@@ -20,7 +20,7 @@ class DatabaseGenerator implements DatabaseGeneratorInterface
     
     private $count = 0;
     
-    public function __construct(DatabaseInterface $database, DatabaseCursorInterface $cursor)
+    public function __construct(DatabaseInterface $database, CursorInterface $cursor)
     {
         $this->database = $database;
         $this->cursor = $cursor;
@@ -39,7 +39,7 @@ class DatabaseGenerator implements DatabaseGeneratorInterface
      */
     public function rewind()
     {
-        throw new RewindDatabaseGeneratorException($this, $this->database);
+        throw new RewindException($this, $this->database);
     }
 
     /**

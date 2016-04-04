@@ -8,16 +8,16 @@
 
 namespace Vain\Database\PDO\Exception;
 
-use Vain\Database\PDO\PDODatabase;
+use Vain\Database\PDO\PDOAdapter;
 
-class CommunicationPDODatabaseException extends PDODatabaseException
+class CommunicationPDOException extends PDOException
 {
     /**
      * CommunicationPDODatabaseException constructor.
-     * @param PDODatabase $database
+     * @param PDOAdapter $database
      * @param \PDOException $e
      */
-    public function __construct(PDODatabase $database, \PDOException $e)
+    public function __construct(PDOAdapter $database, \PDOException $e)
     {
         parent::__construct($database, $e->getCode(), $e->getMessage(), $e);
     }

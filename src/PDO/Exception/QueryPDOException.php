@@ -8,17 +8,17 @@
 
 namespace Vain\Database\PDO\Exception;
 
-use Vain\Database\PDO\PDODatabase;
+use Vain\Database\PDO\PDOAdapter;
 
-class QueryPDODatabaseException extends PDODatabaseException
+class QueryPDOException extends PDOException
 {
     /**
      * VainDatabasePDOAdapterQueryException constructor.
-     * @param PDODatabase $database
+     * @param PDOAdapter $database
      * @param string $errorCode
      * @param array $errorInfo
      */
-    public function __construct(PDODatabase $database, $errorCode, array $errorInfo)
+    public function __construct(PDOAdapter $database, $errorCode, array $errorInfo)
     {
         parent::__construct($database, $errorCode, implode(', ', $errorInfo));
     }

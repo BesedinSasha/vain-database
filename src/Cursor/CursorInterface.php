@@ -9,7 +9,7 @@
 namespace Vain\Database\Cursor;
 
 
-interface DatabaseCursorInterface
+interface CursorInterface
 {
     /**
      * @return bool
@@ -27,14 +27,14 @@ interface DatabaseCursorInterface
     public function next();
 
     /**
-     * @return DatabaseCursorInterface
+     * @return CursorInterface
      */
     public function close();
 
     /**
      * @param int $mode
      *
-     * @return DatabaseCursorInterface
+     * @return CursorInterface
      */
     public function mode($mode);
 

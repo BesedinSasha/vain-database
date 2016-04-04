@@ -8,7 +8,7 @@
 
 namespace Vain\Database;
 
-use Vain\Database\Generator\DatabaseGeneratorInterface;
+use Vain\Database\Generator\GeneratorInterface;
 
 interface DatabaseInterface
 {
@@ -31,7 +31,7 @@ interface DatabaseInterface
      * @param string $query
      * @param array $bindParams
      * 
-     * @return DatabaseGeneratorInterface
+     * @return GeneratorInterface
      */
     public function query($query, array $bindParams);
 }

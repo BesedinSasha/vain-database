@@ -10,7 +10,7 @@ namespace Vain\Database\Exception;
 
 use Vain\Database\DatabaseInterface;
 
-class LevelIntegrityDatabaseException extends DatabaseException
+class LevelIntegrityException extends Exception
 {
     /**
      * LevelIntegrityDatabaseException constructor.

@@ -8,14 +8,14 @@
 
 namespace Vain\Database\Generator\Exception;
 
-use Vain\Database\Generator\DatabaseGeneratorInterface;
+use Vain\Database\Generator\GeneratorInterface;
 
-class RewindDatabaseGeneratorException extends DatabaseGeneratorException
+class RewindException extends Exception
 {
     private $generator;
 
     /**
-     * @return DatabaseGeneratorInterface
+     * @return GeneratorInterface
      */
     public function getGenerator()
     {
@@ -24,9 +24,9 @@ class RewindDatabaseGeneratorException extends DatabaseGeneratorException
 
     /**
      * VainDatabaseGeneratorRewindException constructor.
-     * @param DatabaseGeneratorInterface $databaseGenerator
+     * @param GeneratorInterface $databaseGenerator
      */
-    public function __construct(DatabaseGeneratorInterface $databaseGenerator)
+    public function __construct(GeneratorInterface $databaseGenerator)
     {
         parent::__construct($databaseGenerator, 'Generators are non-rewindable', 0, null);
     }
