@@ -22,9 +22,17 @@ class GeneratorException extends CoreException
      * @param int $code
      * @param \Exception $previous
      */
-    public function __construct(GeneratorInterface $databaseGenerator, $message, $code, $previous)
+    public function __construct(GeneratorInterface $databaseGenerator, $message, $code, \Exception $previous = null)
     {
         $this->generator = $databaseGenerator;
         parent::__construct($message, $code, $previous);
+    }
+
+    /**
+     * @return GeneratorInterface
+     */
+    public function getGenerator()
+    {
+        return $this->generator;
     }
 }
